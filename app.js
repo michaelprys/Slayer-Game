@@ -8,11 +8,24 @@ const app = Vue.createApp({
       surrender: false,
     };
   },
-
+  computed: {
+    enemyBarStyles() {
+      return { width: this.enemyHealth + "%" };
+    },
+    playerBarStyles() {
+      return { width: this.playerHealth + "%" };
+    },
+  },
   methods: {
     attackEnemy() {
       const attackValue = getRandomValue(5, 12);
-      this.monsterHealth -= attackValue;
+      this.enemyHealth -= attackValue;
+      this.receiveDamage();
+      if (this.playerHealth === 0) {
+        alert("You lost!");
+      } else if (this.enemyHealth === 0) {
+        alert("You won!");
+      }
     },
     receiveDamage() {
       const receivedDamageValue = getRandomValue(5, 30);
@@ -20,11 +33,13 @@ const app = Vue.createApp({
     },
     heal() {
       const restoredHealth = getRandomValue(10, 20);
-      this.playerHealth += restoredHealth;
+      if (this.playerHealth < 100) {
+        this.playerHealth += restoredHealth;
+      }
     },
     useUltimate() {
       const ultimateDamageValue = getRandomValue(25, 50);
-      this.monsterHealth -= ultimateDamageValue;
+      this.enemyHealth -= ultimateDamageValue;
     },
     endGame() {
       this.surrender === true;
