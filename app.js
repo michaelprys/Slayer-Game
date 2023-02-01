@@ -6,6 +6,7 @@ const app = Vue.createApp({
       playerHealth: 100,
       enemyHealth: 100,
       surrender: false,
+      currentRound: 0,
     };
   },
   computed: {
@@ -15,9 +16,13 @@ const app = Vue.createApp({
     playerBarStyles() {
       return { width: this.playerHealth + "%" };
     },
+    mayUseUltimate() {
+      return this.currentRound % 3 !== 0;
+    },
   },
   methods: {
     attackEnemy() {
+      this.currentRound++;
       const attackValue = getRandomValue(5, 12);
       this.enemyHealth -= attackValue;
       this.receiveDamage();
@@ -38,8 +43,10 @@ const app = Vue.createApp({
       }
     },
     useUltimate() {
+      this.currentRound++;
       const ultimateDamageValue = getRandomValue(25, 50);
       this.enemyHealth -= ultimateDamageValue;
+      this.receiveDamage();
     },
     endGame() {
       this.surrender === true;

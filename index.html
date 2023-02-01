@@ -31,7 +31,9 @@
       </section>
       <section id="controls">
         <button class="btn btn--attack" @click="attackEnemy">ATTACK</button>
-        <button class="btn btn--ultimate" @click="useUltimate">ULTIMATE</button>
+        <button :disabled="mayUseUltimate" class="btn btn--ultimate" @click="useUltimate">
+          ULTIMATE
+        </button>
         <button class="btn btn--heal" @click="heal">HEAL</button>
         <button class="btn btn--surrender" @click="endGame">SURRENDER</button>
       </section>
