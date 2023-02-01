@@ -30,18 +30,18 @@
         </div>
       </section>
       <section class="container" v-if="winner">
-        <h2 v-if="winner === 'enemy'">Game over!</h2>
+        <h2 v-if="winner === 'enemy' || surrender === true">Game over!</h2>
         <h2 v-else-if="winner === 'player'">You won!</h2>
         <h2 v-else-if="winner === 'draw'">It's a draw!</h2>
-        <button>Start a new game</button>
+        <button @click="startNewGame">Start a new game</button>
       </section>
-      <section id="controls">
+      <section id="controls" v-else>
         <button class="btn btn--attack" @click="attackEnemy">ATTACK</button>
         <button :disabled="mayUseUltimate" class="btn btn--ultimate" @click="useUltimate">
           ULTIMATE
         </button>
         <button class="btn btn--heal" @click="heal">HEAL</button>
-        <button class="btn btn--surrender" @click="endGame">SURRENDER</button>
+        <button class="btn btn--surrender" @click="surrender">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Statistics</h2>

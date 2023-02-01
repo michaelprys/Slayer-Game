@@ -5,16 +5,21 @@ const app = Vue.createApp({
     return {
       playerHealth: 100,
       enemyHealth: 100,
-      surrender: false,
       currentRound: 0,
       winner: null,
     };
   },
   computed: {
     enemyBarStyles() {
+      if (this.enemyHealth < 0) {
+        return { width: "0%" };
+      }
       return { width: this.enemyHealth + "%" };
     },
     playerBarStyles() {
+      if (this.playerHealth < 0) {
+        return { width: "0%" };
+      }
       return { width: this.playerHealth + "%" };
     },
     mayUseUltimate() {
@@ -22,11 +27,6 @@ const app = Vue.createApp({
     },
   },
   watch: {
-    // if (this.playerHealth < 0) {
-    //   alert("You lost!");
-    // } else if (this.enemyHealth === 0) {
-    //   alert("You won!");
-    // }
     playerHealth(value) {
       if (value <= 0 && this.monsterHealth <= 0) {
         // A draw
@@ -47,6 +47,12 @@ const app = Vue.createApp({
     },
   },
   methods: {
+    startNewGame() {
+      this.playerHealth = 100;
+      this.enemyHealth = 100;
+      this.winner = null;
+      this.currentRound = 0;
+    },
     attackEnemy() {
       this.currentRound++;
       const attackValue = getRandomValue(5, 12);
@@ -76,9 +82,8 @@ const app = Vue.createApp({
       this.receiveDamage();
       this.determineAWinner();
     },
-    endGame() {
-      this.surrender === true;
-      alert("You lost!");
+    surrender() {
+      this.winner = "enemy";
     },
   },
 }).mount("#game");
